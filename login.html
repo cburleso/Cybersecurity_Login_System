@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+            integrity="sha384-kW+oWsYx3YpxvjtZjFXqazFpA7UP/MbiY4jvs+RWZo2+N94PFZ36T6TFkc9O3qoB"
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+    function onRegister(){
+      document.getElementById('login-form').action = "/register";
+    }
+
+    function onCheck() {
+
+      if (document.querySelector('.rand_pass').checked){
+
+        var nums = '0123456789';
+        var specials = '!@#$%^&*()_+{}:"<>?\|[];\,./`~';
+        var lowercase = 'abcdefghijklmnopqrstuvwxyz';
+        var uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var all = specials + lowercase + uppercase + nums;
+
+        var strongPass = '';
+        strongPass += nums.charAt(Math.floor(Math.random() * nums.length));
+        strongPass += specials.charAt(Math.floor(Math.random() * specials.length));
+        strongPass += lowercase.charAt(Math.floor(Math.random() * lowercase.length));
+
+        for ( var i = 0; i < 15; i++ ) {
+          strongPass += all.charAt(Math.floor(Math.random() * all.length));
+        }
+
+        document.getElementById('password').value = strongPass;
+        document.getElementById('password').type = 'text';
+
+      } else {
+        document.getElementById('password').value = "";
+        document.getElementById('password').type = 'password';
+      }
+    }
+
+    </script>
+
+    <style>
+      img.logo {
+      max-width:50%;
+      max-height:50%;
+      }
+
+      div.logo {
+      padding-bottom: 25px;
+      text-align: center;
+      }
+
+      div.form-buttons{
+      padding-top: 15px;
+      }
+    </style>
+    <style>
+
+</style>
+
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class=flashes style="text-align: center">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+<section class="hero is-info is-fullheight">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <div class="logo">
+                    <img src="/static/uvm.png" class="logo">
+                </div>
+                    <form method="POST" name="login-form" id="login-form">
+                        <div class="field">
+                            <label class="label">Username</label>
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input" type="text" name="username" placeholder="Username">
+                                <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <p class="control has-icons-left">
+                                <input class="input" type="password" name="password" id="password"
+                                       placeholder="Password">
+                                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+                            </p>
+                        </div>
+                        <input type="checkbox" id="rand_pass" name="rand_pass" value="rand_pass" class="rand_pass"
+                               onclick="onCheck()">
+                        <label for="rand_pass">Generate Strong Password</label><br>
+                        <div class="field" style="padding-top: 6px">
+                            <p class="control">
+                                <div class="form-buttons">
+                                <button type="submit" class="button is-success" id="login">
+                                    Login
+                                </button>
+                                <button type="submit" onclick="onRegister()" class="button is-success" id="register">
+                                    Register
+                                </button>
+                                </div>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+
+</html>
